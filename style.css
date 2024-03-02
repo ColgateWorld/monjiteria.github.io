@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+
+html, body {
+  position: relative;
+  height: 100%; /* Se cambiará para usar max-height y evitar el overflow en móviles */
+  overflow: hidden; /* Evita el desplazamiento vertical no deseado */
+}
+
+body {
+  background-color: #232323;
+  font-family: Helvetica Neue, Helvetica;
+  font-size: 14px;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  width: 100%;
+  padding: 100px 0 50px 0; /* Ajustar según sea necesario para evitar overflow */
+}
+
+.swiper-slide {
+  width: 300px;
+  height: 500px;
+  background-color: #232323;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  text-align: center;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.icons i {
+  font-size: 20px;
+  color: #FFB900;
+}
+
+.icons img {
+  width: 120px;
+}
+
+.product-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-txt {
+  flex-basis: 50%;
+  text-align: left;
+}
+
+.product-txt span {
+  font-size: 25px;
+  color: #FFB900;
+  font-weight: bold;
+}
+
+.product-txt h3 {
+  font-size: 20px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.product-txt p {
+  font-size: 14px;
+  color: #C4C4C4;
+}
+
+.product-img {
+  flex-basis: 50%;
+  text-align: right;
+}
+
+.product-img img {
+  width: 120px;
+}
+
+.btn-1 {
+  display: inline-block;
+  padding: 13px 55px;
+  border: 1px solid #FFB900;
+  border-radius: 25px;
+  color: #FFB900;
+  text-decoration: none;
+  margin-top: 50px;
+}
+
+#intro-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.fullscreen-img {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+
+/* BOTON DE CARRITO  */
+
+
+
+button {
+  position: relative;
+  padding: 10px 15px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  font-size: 1.5em;
+  letter-spacing: 0.07em;
+  font-family: 'Raleway', sans-serif;
+  color: #FFB900;
+  margin: 1em 0;
+}
+
+button::after,
+button::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: #FFB900;
+  transition: all 0.3s ease-out;
+}
+
+button::after {
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+button::before {
+  top: 0;
+  right: 0;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+button:hover::after,
+button:hover::before {
+  width: 100%;
+  transform: scaleX(1);
+}
+
+
+
+/*CARRITO/COMPRA*/  
+
+.product-list {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+.product-list h2 {
+  color: #FFB900;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+ul#products {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul#products li {
+  background-color: #2d2d2d;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#total {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #FFB900;
+  font-weight: bold;
+}
+
+/* Adaptaciones para diferentes tamaños de pantalla */
+@media (max-width: 600px) {
+  .product-list {
+    width: 95%;
+  }
+}
+
+/*CARRITO/COMPRA*/  
+
+.product-list {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+.product-list h2 {
+  color: #FFB900;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+ul#products {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul#products li {
+  background-color: #2d2d2d;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#total {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #FFB900;
+  font-weight: bold;
+}
+
+/* Adaptaciones para diferentes tamaños de pantalla */
+@media (max-width: 600px) {
+  .product-list {
+    width: 95%;
+  }
+}
+
+/* MEDIA QUERIES PARA DISPOSITIVOS MÓVILES */
+@media only screen and (max-width: 768px) {
+  .swiper {
+    padding: 50px 0; /* Reducimos el padding superior e inferior para dispositivos móviles */
+  }
+
+  .swiper-slide {
+    width: 250px; /* Reducimos el ancho para adaptarse mejor a pantallas más pequeñas */
+    height: 400px; /* Ajustamos la altura para mantener la proporción */
+  }
+
+  .icons img, .product-img img {
+    width: 80px; /* Reducimos el tamaño de las imágenes dentro de los slides */
+  }
+
+  .product-txt span, .product-txt h3, .product-txt p {
+    font-size: 12px; /* Ajustamos el tamaño del texto para mejor legibilidad en pantallas pequeñas */
+  }
+
+  .btn-1 {
+    padding: 10px 30px; /* Reducimos el tamaño del botón */
+    font-size: 12px; /* Reducimos el tamaño de la fuente del botón para que encaje mejor */
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #intro-animation {
+    width: 100vw;
+    height: 100vh;
+  }
+  .fullscreen-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+}

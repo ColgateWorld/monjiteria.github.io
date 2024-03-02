@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="./jspdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            overflow-x: hidden;
+            padding-top: 60px;
+            background: #050801;
+            color: #FFB900;
+        }
+    
+        .product-list {
+            max-width: 95%;
+            margin: 20px auto;
+            box-sizing: border-box;
+            overflow-y: scroll; /* Muestra la barra de desplazamiento */
+            max-height: 70vh;
+            padding-bottom: 20px;
+            text-align: center;
+            -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en dispositivos táctiles */
+        }
+    
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #FFB900;
+            padding: 50px;
+            margin: 0 auto;
+            transition: 0.5s;
+            text-shadow: 0 0 5px #FFB900, 0 0 50px #FFB900, 0 0 80px #FFB900, 0 0 290px #FFB900;
+        }
+    
+        #products li {
+            background-color: #333;
+            margin-bottom: 10px;
+            transition: 0.5s;
+        }
+    
+        #finalizarCompra {
+            position: relative;
+            display: inline-block;
+            margin: 20px auto;
+            padding: 25px 30px;
+            color: #FFB900;
+            background: transparent;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 4px;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+    
+        #finalizarCompra:hover {
+            background: #FFB900;
+            color: #050801;
+            box-shadow: 0 0 5px #FFB900, 0 0 25px #FFB900, 0 0 50px #FFB900, 0 0 200px #FFB900;
+        }
+    
+        #finalizarCompra span {
+            position: absolute;
+            display: block;
+            background: linear-gradient(90deg, transparent, #FFB900);
+        }
+    
+        #finalizarCompra span:nth-child(1), #finalizarCompra span:nth-child(3) {
+            width: 100%;
+            height: 2px;
+        }
+    
+        #finalizarCompra span:nth-child(2), #finalizarCompra span:nth-child(4) {
+            width: 2px;
+            height: 100%;
+        }
+    
+        #finalizarCompra span:nth-child(1) {
+            top: 0;
+            left: 0;
+            animation: animate1 1s linear infinite;
+        }
+    
+        #finalizarCompra span:nth-child(2) {
+            top: 0;
+            right: 0;
+            animation: animate2 1s linear infinite;
+            animation-delay: 0.25s;
+        }
+    
+        #finalizarCompra span:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            animation: animate3 1s linear infinite;
+            animation-delay: 0.5s;
+        }
+    
+        #finalizarCompra span:nth-child(4) {
+            bottom: 0;
+            left: 0;
+            animation: animate4 1s linear infinite;
+            animation-delay: 0.75s;
+        }
+    
+        @media (min-width: 768px) {
+            #finalizarCompra, #products li div, #products li button {
+                font-size: 1rem; /* Establece un tamaño fijo para pantallas más grandes */
+            }
+        }
+
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 40px; /* Establece un tamaño fijo para pantallas más grandes */
+            }
+        }
+
+        @media (max-width: 767px) {
+            #products li {
+                flex-direction: column; /* Cambia la dirección para dispositivos móviles */
+                padding: 15px; /* Aumenta el padding para mejor visualización */
+            }
+
+            #products li div, #products li button {
+                font-size: 14px; /* Aumenta la legibilidad en dispositivos móviles */
+                padding: 8px 5px; /* Ajusta el padding */
+                margin: 0 2px; /* Ajusta los márgenes */
+            }
+
+            #products li button {
+                margin-top: 5px; /* Espacio adicional arriba del botón tache para dispositivos móviles */
+            }
+        }
+
+    
+            .product-list::-webkit-scrollbar {
+                width: 4px;
+            }
+    
+            .product-list::-webkit-scrollbar-track {
+                background: #050801;
+            }
+    
+            .product-list::-webkit-scrollbar-thumb {
+                background-color: #FFB900;
+                border-radius: 20px;
+            }
+        
+    
+        @keyframes animate1 {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+    
+        @keyframes animate2 {
+            0% { top: -100%; }
+            50%, 100% { top: 100%; }
+        }
+    
+        @keyframes animate3 {
+            0% { right: -100%; }
+            50%, 100% { right: 100%; }
+        }
+    
+        @keyframes animate4 {
+            0% { bottom: -100%; }
+            50%, 100% { bottom: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <button class="pulse" onclick="window.location.href='index.html';" style="position: absolute; top: 20px; left: 20px;">Regresar</button>
+    <div class="product-list">
+        <h2>Productos Agregados</h2>
+        <ul id="products"></ul>
+        <div id="total"></div>
+        <button id="finalizarCompra" onclick="finalizarCompra();">
+            Finalizar compra
+            <span></span><span></span><span></span><span></span>
+        </button>
+    </div>
+</body>
+</html>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let products = JSON.parse(localStorage.getItem('products') || '{}');
+            let productsList = document.getElementById('products');
+    
+            function calculateAndDisplayTotal() {
+                let total = 0;
+                for (const id in products) {
+                    total += products[id].subtotal;
+                }
+                document.getElementById('total').innerText = `Total: $${total}`;
+            }
+    
+            function updateQuantityDisplay(productId) {
+                let product = products[productId];
+                let productLi = document.querySelector(`[data-product-id="${productId}"]`);
+                productLi.querySelector('.quantity').innerText = `${product.quantity}`;
+                productLi.querySelector('.subtotal').innerText = `Subtotal: $${product.subtotal}`;
+                calculateAndDisplayTotal();
+            }
+    
+            for (const id in products) {
+                let product = products[id];
+                let li = document.createElement('li');
+                li.setAttribute('data-product-id', id);
+                li.style.display = 'flex';
+                li.style.alignItems = 'center';
+                li.style.justifyContent = 'space-between';
+                li.style.marginBottom = '26px';
+                li.style.backgroundColor = '#333';
+                li.style.padding = '10px';
+                li.style.color = 'white';
+    
+                // Nombre del producto
+                let nameDiv = document.createElement('div');
+                nameDiv.innerText = product.name;
+                nameDiv.style.flex = '0.3';
+    
+                // Contenedor para botones y cantidad
+                let quantityContainer = document.createElement('div');
+                quantityContainer.style.display = 'flex';
+                quantityContainer.style.alignItems = 'center';
+    
+                // Botón para decrementar la cantidad
+                let decrementButton = document.createElement('button');
+                decrementButton.innerText = '-';
+                decrementButton.style.margin = '0 40px';
+                decrementButton.onclick = function() {
+                    if (product.quantity > 1) {
+                        product.quantity--;
+                        product.subtotal = product.quantity * product.price;
+                        localStorage.setItem('products', JSON.stringify(products));
+                        updateQuantityDisplay(id);
+                    }
+                };
+    
+                // Cantidad del producto
+                let quantityText = document.createElement('span');
+                quantityText.className = 'quantity';
+                quantityText.innerText = `${product.quantity}`;
+    
+                // Botón para incrementar la cantidad
+                let incrementButton = document.createElement('button');
+                incrementButton.innerText = '+';
+                incrementButton.style.margin = '0 40px';
+                incrementButton.onclick = function() {
+                    product.quantity++;
+                    product.subtotal = product.quantity * product.price;
+                    localStorage.setItem('products', JSON.stringify(products));
+                    updateQuantityDisplay(id);
+                };
+    
+                quantityContainer.appendChild(decrementButton);
+                quantityContainer.appendChild(quantityText);
+                quantityContainer.appendChild(incrementButton);
+    
+                // Subtotal del producto
+                let subtotalDiv = document.createElement('div');
+                subtotalDiv.className = 'subtotal';
+                subtotalDiv.innerText = `Subtotal: $${product.subtotal}`;
+    
+                // Botón para eliminar producto
+                let deleteButton = document.createElement('button');
+                deleteButton.innerText = 'X';
+                deleteButton.style.backgroundColor = '#555';
+                deleteButton.style.color = 'yellow';
+                deleteButton.style.border = 'none';
+                deleteButton.style.padding = '1px 5px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.onclick = function() {
+                    delete products[id];
+                    localStorage.setItem('products', JSON.stringify(products));
+                    li.remove();
+                    showToast('Producto eliminado');
+                    calculateAndDisplayTotal();
+                };
+    
+                li.appendChild(nameDiv);
+                li.appendChild(quantityContainer);
+                li.appendChild(subtotalDiv);
+                li.appendChild(deleteButton);
+                
+                productsList.appendChild(li);
+            }
+    
+            calculateAndDisplayTotal();
+    
+            function showToast(message) {
+                Toastify({
+                    text: message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "linear-gradient(to right, #232323, #FFB900)",
+                        borderRadius: "2rem",
+                        textTransform: "uppercase",
+                        fontSize: ".75rem"
+                    },
+                    offset: {
+                        x: "1.5rem",
+                        y: "1.5rem"
+                    },
+                    onClick: function(){} // Callback after click
+                }).showToast();
+            }
+        });
+
+        function finalizarCompra() {
+            let products = JSON.parse(localStorage.getItem('products') || '{}');
+            let total = 0;
+            for (const id in products) {
+                total += products[id].subtotal;
+            }
+
+            Swal.fire({
+                title: '¿Estás seguro/a de tu compra?',
+                html:`Se comprarán ${Object.keys(products).length} productos diferentes del carrito.`,
+                showDenyButton: true,
+                confirmButtonText: 'Sí',
+                denyButtonText: `No`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Calcula la altura necesaria para el ticket
+                    const alturaMinima = 80; // Establece una altura mínima para el ticket
+                    let alturaTicket = 20 + (Object.keys(products).length * 13); // Ajusta este cálculo según tus necesidades
+                    alturaTicket = Math.max(alturaTicket, alturaMinima); // Usa la altura mínima si la altura calculada es menor
+
+                    // Crea una nueva instancia de jsPDF con dimensiones específicas para un ticket
+                    const doc = new jsPDF({ unit: 'mm', format: [72, alturaTicket] }); // Ajusta las dimensiones según tus necesidades
+
+                    // Establece la fuente y el tamaño para el documento
+                    doc.setFontSize(8); // Ajusta el tamaño de la fuente según tus necesidades
+
+                    // Añade un título al documento
+                    doc.text("Ticket de compra", 10, 10); 
+                    doc.setFontType("bold");
+                    doc.text(`Total: $${total}`, 50, 10); 
+                    doc.setFontType("normal");
+
+                    // Añade una línea horizontal debajo del título
+                    doc.setLineWidth(0.5);
+                    doc.line(10, 15, 62, 15); // Ajusta la posición de la línea según tus necesidades
+
+                    // Añade los detalles de cada producto al documento
+                    let y = 20;
+                    let x = 10;
+                    for (const id in products) {
+                        let product = products[id];
+                        doc.setFontType("bold");
+                        doc.text(`${product.name}`, x, y); 
+                        y += 3; // Añade más espacio después del título del producto
+                        doc.setFontType("normal");
+                        doc.text(`Cantidad: ${product.quantity}`, x, y + 1); 
+                        doc.text(`Subtotal: $${product.subtotal}`, x + 30, y + 1); 
+
+                        y += 8; // Añade más espacio entre los productos
+                    }
+
+                    // Añade un mensaje de agradecimiento en la parte restante del ticket
+                    doc.setFontType("bold");
+                    doc.setFontSize(9); // Ajusta el tamaño de la fuente según tus necesidades
+                    doc.text("¡Gracias por su compra, regrese pronto!", 6, y + 8); 
+
+                    doc.save('ticket.pdf');
+
+                    Swal.fire('¡Compra realizada!', '', 'success')
+
+                    // Limpiar el carrito de compras
+                    localStorage.removeItem('products');
+                    location.reload();
+                
+                } else if (result.isDenied){
+                    Swal.fire('¡Compra no realizada!', '', 'error')
+                }
+                
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</body>
+</html>
